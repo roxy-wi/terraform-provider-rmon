@@ -1,0 +1,1 @@
+% terraform import rmon_ssh_credential.example 1
