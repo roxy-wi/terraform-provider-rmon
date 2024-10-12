@@ -14,7 +14,7 @@ import (
 const (
 	ServerIdField    = "server_id"
 	RegionIdFiled    = "region_id"
-	SharedAgentField = "shared"
+	ReconfigureField = "reconfigure"
 )
 
 func resourceAgent() *schema.Resource {
@@ -52,7 +52,7 @@ func resourceAgent() *schema.Resource {
 				Optional:    true,
 				Description: "Enabled state of the Agent.",
 			},
-			SharedAgentField: {
+			SharedField: {
 				Type:        schema.TypeBool,
 				Optional:    true,
 				Description: "Is the Agent shared with other groups?.",
@@ -81,17 +81,18 @@ func resourceAgentCreate(ctx context.Context, d *schema.ResourceData, m interfac
 
 	description := strings.ReplaceAll(d.Get(DescriptionField).(string), "'", "")
 	name := strings.ReplaceAll(d.Get(NameField).(string), "'", "")
-	shred := boolToInt(d.Get(SharedAgentField).(bool))
+	shred := boolToInt(d.Get(SharedField).(bool))
 	enabled := boolToInt(d.Get(EnabledField).(bool))
 
 	server := map[string]interface{}{
-		SharedAgentField: shred,
+		SharedField:      shred,
 		DescriptionField: description,
 		EnabledField:     enabled,
 		NameField:        name,
 		ServerIdField:    d.Get(ServerIdField).(int),
 		PortField:        d.Get(PortField).(int),
 		RegionIdFiled:    d.Get(RegionIdFiled).(int),
+		ReconfigureField: true,
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/agent", server)
@@ -131,7 +132,7 @@ func resourceAgentRead(ctx context.Context, d *schema.ResourceData, m interface{
 	name := strings.ReplaceAll(result[NameField].(string), "'", "")
 	d.Set(DescriptionField, description)
 	d.Set(EnabledField, intToBool(result[EnabledField].(float64)))
-	d.Set(SharedAgentField, intToBool(result[SharedAgentField].(float64)))
+	d.Set(SharedField, intToBool(result[SharedField].(float64)))
 	d.Set(NameField, name)
 	d.Set(ServerIdField, result[ServerIdField])
 	d.Set(PortField, result[PortField])
@@ -150,11 +151,12 @@ func resourceAgentUpdate(ctx context.Context, d *schema.ResourceData, m interfac
 	server := map[string]interface{}{
 		DescriptionField: description,
 		EnabledField:     boolToInt(d.Get(EnabledField).(bool)),
-		SharedAgentField: boolToInt(d.Get(SharedAgentField).(bool)),
+		SharedField:      boolToInt(d.Get(SharedField).(bool)),
 		NameField:        name,
 		ServerIdField:    d.Get(ServerIdField).(int),
 		PortField:        d.Get(PortField).(int),
 		RegionIdFiled:    d.Get(RegionIdFiled).(int),
+		ReconfigureField: true,
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/agent/%s", id), server)

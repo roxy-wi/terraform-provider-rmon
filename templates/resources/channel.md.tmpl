@@ -12,20 +12,7 @@ Represents a communication channel such as Telegram, Slack, PagerDuty, or Matter
 
 ## Example Usage
 
-```terraform
-provider "rmon" {
-  base_url = "https://your_rmon"
-  login    = "testlog"
-  password = "testpass"
-}
-
-resource "rmon_channel" "example" {
-  receiver = "pd"
-  channel  = "test_my_channel"
-  group_id = 1
-  token    = "some_token"
-}
-```
+{{ tffile "./examples/resources/channel/example_1.tf" }}
 
 ## Argument Reference
 
@@ -64,15 +51,8 @@ The following attributes are exported:
 
 In Terraform v1.7.0 and later, use an import block to import Channel. For example:
 
-```terraform
-import {
-  to = rmon_channel.example
-  id = "1"
-}
-```
+{{tffile "./examples/resources/channel/example_2.tf"}}
 
 Using terraform import, import Channel can be imported using the `id`, e.g. For example:
 
-```shell
-% terraform import rmon_channel.example 1
-```
+{{codefile "shell" "./examples/resources/channel/import.sh"}}

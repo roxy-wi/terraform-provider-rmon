@@ -1,5 +1,5 @@
 provider "rmon" {
-  base_url = "https://demo.roxy-wi.org"
+  base_url = "https://your_rmon"
   login    = "testlog"
   password = "testpass"
 }

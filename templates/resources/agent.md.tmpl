@@ -12,23 +12,7 @@ This resource manages Agents in RMON.
 
 ## Example Usage
 
-```terraform
-provider "rmon" {
-  base_url = "https://..."
-  login    = "test"
-  password = "testpass"
-}
-
-resource "rmon_agent" "example" {
-  server_id   = 1
-  name        = "Agent01"
-  description = "Agent in my DC"
-  enabled     = true
-  shared      = true
-  port        = 5101
-  region_id   = 1
-}
-```
+{{ tffile "./examples/resources/agent/example_1.tf" }}
 
 ## Argument Reference
 
@@ -66,15 +50,8 @@ Optional:
 
 In Terraform v1.7.0 and later, use an import block to import Agent. For example:
 
-```terraform
-import {
-  to = rmon_agent.example
-  id = "1"
-}
-```
+{{tffile "./examples/resources/agent/example_2.tf"}}
 
 Using terraform import, import Agent can be imported using the `id`, e.g. For example:
 
-```shell
-% terraform import rmon_agent.example 1
-```
+{{codefile "shell" "./examples/resources/agent/import.sh"}}

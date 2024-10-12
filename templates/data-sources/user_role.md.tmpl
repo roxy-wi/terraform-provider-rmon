@@ -12,19 +12,7 @@ The data source allows you to retrieve information about user roles in RMON. Thi
 
 ## Example Usage
 
-```terraform
-provider "rmon" {
-  base_url = "https://..."
-  login    = "test"
-  password = "testpass"
-}
-
-data "rmon_user_role" "example" {}
-
-output "test" {
-  value = data.rmon_user_role.example.roles
-}
-```
+{{ tffile "./examples/data-sources/user_role/example_1.tf" }}
 
 ## Schema
 

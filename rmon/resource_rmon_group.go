@@ -28,7 +28,7 @@ func resourceGroup() *schema.Resource {
 			Delete: schema.DefaultTimeout(30 * time.Minute),
 		},
 
-		Description: "Represent roxy-wi group. All servers managed via RMON can be included in groups. A group is a user-defined pool of servers. It is up to you decide how you will group your servers. You can create groups because of their type, purpose, etc. By default, all your servers are included in the common group named Default. All other groups are created within this group.",
+		Description: "Represent RMON group. All servers managed via RMON can be included in groups. A group is a user-defined pool of servers. It is up to you decide how you will group your servers. You can create groups because of their type, purpose, etc. By default, all your servers are included in the common group named Default. All other groups are created within this group.",
 
 		Schema: map[string]*schema.Schema{
 			NameField: {

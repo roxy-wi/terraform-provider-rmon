@@ -12,23 +12,7 @@ This resource manages server entries in RMON. It allows you to define servers wi
 
 ## Example Usage
 
-```terraform
-provider "rmon" {
-  base_url = "https://..."
-  login    = "test"
-  password = "testpass"
-}
-
-resource "rmon_server" "example" {
-  cred_id     = 2
-  description = "test server"
-  enabled     = true
-  group_id    = 1
-  hostname    = "d-infra-redis01"
-  ip          = "192.168.1.101"
-  port        = 5673
-}
-```
+{{ tffile "./examples/resources/server/example_1.tf" }}
 
 ## Schema
 
@@ -66,15 +50,8 @@ Optional:
 
 In Terraform v1.7.0 and later, use an import block to import Server. For example:
 
-```terraform
-import {
-  to = rmon_server.example
-  id = "1"
-}
-```
+{{tffile "./examples/resources/server/example_2.tf"}}
 
 Using terraform import, import Server can be imported using the `id`, e.g. For example:
 
-```shell
-% terraform import rmon_server.example 1
-```
+{{codefile "shell" "./examples/resources/server/import.sh"}}

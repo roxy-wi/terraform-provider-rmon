@@ -12,20 +12,7 @@ This resource manages user entries in RMON. It allows you to define users with s
 
 ## Example Usage
 
-```terraform
-provider "rmon" {
-  base_url = "https://your_rmon"
-  login    = "testlog"
-  password = "testpass"
-}
-
-resource "rmon_user" "example" {
-  email    = "test23@gmail.com"
-  enabled  = true
-  password = "testpassword"
-  username = "testuser2"
-}
-```
+{{ tffile "./examples/resources/user/example_1.tf" }}
 
 ## Schema
 
@@ -60,15 +47,8 @@ Optional:
 
 In Terraform v1.7.0 and later, use an import block to import User. For example:
 
-```terraform
-import {
-  to = rmon_user.example
-  id = "6"
-}
-```
+{{tffile "./examples/resources/user/example_2.tf"}}
 
 Using terraform import, import User can be imported using the `id`, e.g. For example:
 
-```shell
-% terraform import rmon_user.example 1
-```
+{{codefile "shell" "./examples/resources/user/import.sh"}}

@@ -12,18 +12,7 @@ Represent roxy-wi group. All servers managed via RMON can be included in groups.
 
 ## Example Usage
 
-```terraform
-provider "rmon" {
-  base_url = "https://..."
-  login    = "test"
-  password = "testpass"
-}
-
-resource "rmon_group" "example" {
-  name        = "example_group2"
-  description = "test terraform group2"
-}
-```
+{{ tffile "./examples/resources/group/example_1.tf" }}
 
 ## Schema
 
@@ -56,15 +45,8 @@ Optional:
 
 In Terraform v1.7.0 and later, use an import block to import Group. For example:
 
-```terraform
-import {
-  to = rmon_group.example
-  id = "1"
-}
-```
+{{tffile "./examples/resources/group/example_2.tf"}}
 
 Using terraform import, import Group can be imported using the `id`, e.g. For example:
 
-```shell
-% terraform import rmon_group.example 1
-```
+{{codefile "shell" "./examples/resources/group/import.sh"}}
