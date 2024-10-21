@@ -48,6 +48,8 @@ func Provider() *schema.Provider {
 			"rmon_channel":           resourceChannel(),
 			"rmon_ssh_credential":    resourceSSHCredential(),
 			"rmon_agent":             resourceAgent(),
+			"rmon_region":            resourceRegion(),
+			"rmon_country":           resourceCountry(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"rmon_group":     dataSourceGroup(),

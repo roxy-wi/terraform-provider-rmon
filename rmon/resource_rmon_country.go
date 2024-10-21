@@ -9,21 +9,14 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 )
 
-const (
-	ServerIdField    = "server_id"
-	RegionIdFiled    = "region_id"
-	ReconfigureField = "reconfigure"
-)
-
-func resourceAgent() *schema.Resource {
+func resourceCountry() *schema.Resource {
 	return &schema.Resource{
-		CreateWithoutTimeout: resourceAgentCreate,
-		ReadWithoutTimeout:   resourceAgentRead,
-		UpdateWithoutTimeout: resourceAgentUpdate,
-		DeleteWithoutTimeout: resourceAgentDelete,
+		CreateWithoutTimeout: resourceCountryCreate,
+		ReadWithoutTimeout:   resourceCountryRead,
+		UpdateWithoutTimeout: resourceCountryUpdate,
+		DeleteWithoutTimeout: resourceCountryDelete,
 
 		Importer: &schema.ResourceImporter{
 			StateContext: schema.ImportStatePassthroughContext,
@@ -35,50 +28,34 @@ func resourceAgent() *schema.Resource {
 			Delete: schema.DefaultTimeout(30 * time.Minute),
 		},
 
-		Description: "This resource manages Agents in RMON.",
+		Description: "This resource manages Countries in RMON.",
 
 		Schema: map[string]*schema.Schema{
 			NameField: {
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "Name of the Agent.",
+				Description: "Name of the Country.",
 			},
 			DescriptionField: {
 				Type:        schema.TypeString,
 				Optional:    true,
-				Description: "Description of the Agent.",
+				Description: "Description of the Country.",
 			},
 			EnabledField: {
 				Type:        schema.TypeBool,
 				Optional:    true,
-				Description: "Enabled state of the Agent.",
+				Description: "Enabled state of the Country.",
 			},
 			SharedField: {
 				Type:        schema.TypeBool,
 				Optional:    true,
-				Description: "Is the Agent shared with other groups?.",
-			},
-			ServerIdField: {
-				Type:        schema.TypeInt,
-				Required:    true,
-				Description: "ID of the server where Agent will be installed.",
-			},
-			PortField: {
-				Type:         schema.TypeInt,
-				Required:     true,
-				Description:  "Port number for binding Agent.",
-				ValidateFunc: validation.IsPortNumber,
-			},
-			RegionIdFiled: {
-				Type:        schema.TypeInt,
-				Optional:    true,
-				Description: "ID of the region to which the agent belongs.",
+				Description: "Is the Country shared with other groups?.",
 			},
 		},
 	}
 }
 
-func resourceAgentCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCountryCreate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*Config).Client
 
 	description := strings.ReplaceAll(d.Get(DescriptionField).(string), "'", "")
@@ -91,13 +68,9 @@ func resourceAgentCreate(ctx context.Context, d *schema.ResourceData, m interfac
 		DescriptionField: description,
 		EnabledField:     enabled,
 		NameField:        name,
-		ServerIdField:    d.Get(ServerIdField).(int),
-		PortField:        d.Get(PortField).(int),
-		RegionIdFiled:    d.Get(RegionIdFiled).(int),
-		ReconfigureField: true,
 	}
 
-	resp, err := client.doRequest("POST", "/api/v1.0/rmon/agent", server)
+	resp, err := client.doRequest("POST", "/api/v1.0/rmon/country", server)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -113,14 +86,14 @@ func resourceAgentCreate(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 
 	d.SetId(fmt.Sprintf("%d", int(id)))
-	return resourceAgentRead(ctx, d, m)
+	return resourceCountryRead(ctx, d, m)
 }
 
-func resourceAgentRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCountryRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*Config).Client
 	id := d.Id()
 
-	resp, err := client.doRequest("GET", fmt.Sprintf("/api/v1.0/rmon/agent/%s", id), nil)
+	resp, err := client.doRequest("GET", fmt.Sprintf("/api/v1.0/rmon/country/%s", id), nil)
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -136,48 +109,39 @@ func resourceAgentRead(ctx context.Context, d *schema.ResourceData, m interface{
 	d.Set(EnabledField, intToBool(result[EnabledField].(float64)))
 	d.Set(SharedField, intToBool(result[SharedField].(float64)))
 	d.Set(NameField, name)
-	d.Set(ServerIdField, result[ServerIdField])
-	d.Set(PortField, result[PortField])
-	d.Set(RegionIdFiled, result[RegionIdFiled])
 
 	return nil
 }
 
-func resourceAgentUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCountryUpdate(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*Config).Client
 	id := d.Id()
 
 	description := strings.ReplaceAll(d.Get(DescriptionField).(string), "'", "")
 	name := strings.ReplaceAll(d.Get(NameField).(string), "'", "")
+	shred := boolToInt(d.Get(SharedField).(bool))
+	enabled := boolToInt(d.Get(EnabledField).(bool))
 
 	server := map[string]interface{}{
+		SharedField:      shred,
 		DescriptionField: description,
-		EnabledField:     boolToInt(d.Get(EnabledField).(bool)),
-		SharedField:      boolToInt(d.Get(SharedField).(bool)),
+		EnabledField:     enabled,
 		NameField:        name,
-		ServerIdField:    d.Get(ServerIdField).(int),
-		PortField:        d.Get(PortField).(int),
-		RegionIdFiled:    d.Get(RegionIdFiled).(int),
-		ReconfigureField: false,
 	}
 
-	if d.HasChange(PortField) {
-		server[ReconfigureField] = true
-	}
-
-	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/agent/%s", id), server)
+	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/country/%s", id), server)
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
-	return resourceAgentRead(ctx, d, m)
+	return resourceCountryRead(ctx, d, m)
 }
 
-func resourceAgentDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
+func resourceCountryDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*Config).Client
 	id := d.Id()
 
-	_, err := client.doRequest("DELETE", fmt.Sprintf("/api/v1.0/rmon/agent/%s", id), nil)
+	_, err := client.doRequest("DELETE", fmt.Sprintf("/api/v1.0/rmon/country/%s", id), nil)
 	if err != nil {
 		return diag.FromErr(err)
 	}

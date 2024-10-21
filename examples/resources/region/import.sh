@@ -1,0 +1,1 @@
+% terraform import rmon_region.example 1

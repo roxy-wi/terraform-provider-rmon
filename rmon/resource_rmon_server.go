@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 	"strings"
 	"time"
 
@@ -72,9 +73,10 @@ func resourceServer() *schema.Resource {
 				Description: "IP address of the server.",
 			},
 			PortField: {
-				Type:        schema.TypeInt,
-				Required:    true,
-				Description: "Port number.",
+				Type:         schema.TypeInt,
+				Required:     true,
+				Description:  "Port number.",
+				ValidateFunc: validation.IsPortNumber,
 			},
 		},
 	}
