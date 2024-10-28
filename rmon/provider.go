@@ -50,6 +50,12 @@ func Provider() *schema.Provider {
 			"rmon_agent":             resourceAgent(),
 			"rmon_region":            resourceRegion(),
 			"rmon_country":           resourceCountry(),
+			"rmon_check_ping":        resourceCheckPing(),
+			"rmon_check_tcp":         resourceCheckTcp(),
+			"rmon_check_dns":         resourceCheckDns(),
+			"rmon_check_http":        resourceCheckHttp(),
+			"rmon_check_smtp":        resourceCheckSmtp(),
+			"rmon_check_rabbitmq":    resourceCheckRabbitmq(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"rmon_group":     dataSourceGroup(),

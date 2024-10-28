@@ -1,0 +1,1 @@
+% terraform import rmon_check_ping.example 1

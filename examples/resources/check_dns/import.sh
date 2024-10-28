@@ -1,0 +1,1 @@
+% terraform import rmon_check_dns.example 1
