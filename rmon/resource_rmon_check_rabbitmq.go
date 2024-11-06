@@ -192,6 +192,11 @@ func resourceCheckRabbitmqRead(ctx context.Context, d *schema.ResourceData, m in
 		return diag.FromErr(err)
 	}
 
+	entities := result[EntitiesField].([]interface{})
+	if result[PlaceField] == "all" {
+		entities = []interface{}{}
+	}
+
 	description := strings.ReplaceAll(result[DescriptionField].(string), "'", "")
 	name := strings.ReplaceAll(result[NameField].(string), "'", "")
 	d.Set(DescriptionField, description)
@@ -199,7 +204,7 @@ func resourceCheckRabbitmqRead(ctx context.Context, d *schema.ResourceData, m in
 	d.Set(NameField, name)
 	d.Set(CheckGroupIdFiled, result[CheckGroupIdFiled])
 	d.Set(PlaceField, result[PlaceField])
-	d.Set(EntitiesField, result[EntitiesField])
+	d.Set(EntitiesField, entities)
 	d.Set(IntervalField, result[IntervalField])
 	d.Set(TimeoutField, result[TimeoutField])
 	d.Set(TelegramField, result[TelegramField])

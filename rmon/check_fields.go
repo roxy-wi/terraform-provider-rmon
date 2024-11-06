@@ -13,7 +13,7 @@ const (
 	PacketSizeField          = "packet_size"
 	ResolverField            = "resolver"
 	RecordTypeField          = "record_type"
-	HttpMethodField          = "http_method"
+	HttpMethodField          = "method"
 	IgnoreSslErrorField      = "ignore_ssl_error"
 	AcceptedStatusCodesField = "accepted_status_codes"
 	BodyField                = "body"
