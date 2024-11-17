@@ -56,6 +56,7 @@ func Provider() *schema.Provider {
 			"rmon_check_http":        resourceCheckHttp(),
 			"rmon_check_smtp":        resourceCheckSmtp(),
 			"rmon_check_rabbitmq":    resourceCheckRabbitmq(),
+			"rmon_check_group":       resourceCheckGroup(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"rmon_group":     dataSourceGroup(),

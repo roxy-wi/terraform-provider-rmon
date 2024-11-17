@@ -1,0 +1,1 @@
+% terraform import rmon_check_group.example 1
