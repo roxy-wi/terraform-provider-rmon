@@ -24,7 +24,6 @@ resource "rmon_country" "example" {
   description = "This country consists some regions"
   enabled     = true
   shared      = true
-  regions     = [1, 2, 3]
 }
 ```
 

@@ -24,7 +24,7 @@ resource "rmon_region" "example" {
   description = "This region consists all Agents in DC01"
   enabled     = true
   shared      = true
-  agents      = [1, 2, 3]
+  country_id  = 1
 }
 ```
 
