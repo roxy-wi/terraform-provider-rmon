@@ -106,8 +106,8 @@ func resourceCountryRead(ctx context.Context, d *schema.ResourceData, m interfac
 	description := strings.ReplaceAll(result[DescriptionField].(string), "'", "")
 	name := strings.ReplaceAll(result[NameField].(string), "'", "")
 	d.Set(DescriptionField, description)
-	d.Set(EnabledField, intToBool(result[EnabledField].(float64)))
-	d.Set(SharedField, intToBool(result[SharedField].(float64)))
+	d.Set(EnabledField, result[EnabledField])
+	d.Set(SharedField, result[SharedField])
 	d.Set(NameField, name)
 
 	return nil
