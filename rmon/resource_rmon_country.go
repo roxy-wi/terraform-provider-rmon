@@ -51,6 +51,11 @@ func resourceCountry() *schema.Resource {
 				Optional:    true,
 				Description: "Is the Country shared with other groups?.",
 			},
+			GroupIDField: {
+				Type:        schema.TypeInt,
+				Optional:    true,
+				Description: "Group ID.",
+			},
 		},
 	}
 }
@@ -68,6 +73,7 @@ func resourceCountryCreate(ctx context.Context, d *schema.ResourceData, m interf
 		DescriptionField: description,
 		EnabledField:     enabled,
 		NameField:        name,
+		GroupIDField:     d.Get(GroupIDField).(int),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/country", server)
@@ -109,6 +115,7 @@ func resourceCountryRead(ctx context.Context, d *schema.ResourceData, m interfac
 	d.Set(EnabledField, result[EnabledField])
 	d.Set(SharedField, result[SharedField])
 	d.Set(NameField, name)
+	d.Set(GroupIDField, result[GroupIDField])
 
 	return nil
 }
@@ -127,6 +134,7 @@ func resourceCountryUpdate(ctx context.Context, d *schema.ResourceData, m interf
 		DescriptionField: description,
 		EnabledField:     enabled,
 		NameField:        name,
+		GroupIDField:     d.Get(GroupIDField).(int),
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/country/%s", id), server)

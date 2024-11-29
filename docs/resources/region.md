@@ -37,6 +37,7 @@ resource "rmon_region" "example" {
 ### Optional
 
 - `country_id` (Number) Country ID to what the Region belongs to.
+- `group_id` (Number) Group ID to what the Region belongs to.
 - `description` (String) Description of the Region.
 - `enabled` (Boolean) Enabled state of the Region.
 - `shared` (Boolean) Is the Region shared with other groups?.

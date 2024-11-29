@@ -60,6 +60,11 @@ func resourceRegion() *schema.Resource {
 				Optional:    true,
 				Description: "Country ID to what the Region belongs to.",
 			},
+			GroupIDField: {
+				Type:        schema.TypeInt,
+				Optional:    true,
+				Description: "Group ID.",
+			},
 		},
 	}
 }
@@ -78,6 +83,7 @@ func resourceRegionCreate(ctx context.Context, d *schema.ResourceData, m interfa
 		EnabledField:     enabled,
 		NameField:        name,
 		CountryField:     d.Get(CountryField).(int),
+		GroupIDField:     d.Get(GroupIDField).(int),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/region", server)
@@ -120,6 +126,7 @@ func resourceRegionRead(ctx context.Context, d *schema.ResourceData, m interface
 	d.Set(SharedField, result[SharedField])
 	d.Set(NameField, name)
 	d.Set(CountryField, result[CountryField])
+	d.Set(GroupIDField, result[GroupIDField])
 
 	return nil
 }
@@ -139,6 +146,7 @@ func resourceRegionUpdate(ctx context.Context, d *schema.ResourceData, m interfa
 		EnabledField:     enabled,
 		NameField:        name,
 		CountryField:     d.Get(CountryField).(int),
+		GroupIDField:     d.Get(GroupIDField).(int),
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/region/%s", id), server)

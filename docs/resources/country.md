@@ -36,6 +36,7 @@ resource "rmon_country" "example" {
 ### Optional
 
 - `description` (String) Description of the Country.
+- `group_id` (Number) Group ID to what the Region belongs to.
 - `enabled` (Boolean) Enabled state of the Country.
 - `shared` (Boolean) Is the Country shared with other groups?.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
