@@ -1,7 +1,7 @@
 
-# Terraform Provider for Roxy-WI
+# Terraform Provider for RMON
 
-The Terraform Provider for Roxy-WI allows you to manage Roxy-WI resources such as UDP listeners and groups.
+The Terraform Provider for RMON allows you to manage RMON resources such as UDP listeners and groups.
 
 ## Requirements
 
