@@ -128,6 +128,13 @@ func resourceCheckRabbitmq() *schema.Resource {
 				Required:    true,
 				Description: "Virtual host to RabbitMQ server.",
 			},
+			RetriesField: {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Description:  "Number of retries before check is marked down.",
+				ValidateFunc: validation.IntAtLeast(0),
+				Default:      3,
+			},
 		},
 	}
 }
@@ -157,6 +164,7 @@ func resourceCheckRabbitmqCreate(ctx context.Context, d *schema.ResourceData, m 
 		UserNameField:     d.Get(UserNameField),
 		PasswordField:     d.Get(PasswordField),
 		VhostField:        d.Get(VhostField),
+		RetriesField:      d.Get(RetriesField).(int),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/rabbitmq", server)
@@ -216,6 +224,7 @@ func resourceCheckRabbitmqRead(ctx context.Context, d *schema.ResourceData, m in
 	d.Set(UserNameField, result[UserNameField])
 	d.Set(PasswordField, result[PasswordField])
 	d.Set(VhostField, result[VhostField])
+	d.Set(RetriesField, result[RetriesField])
 
 	return nil
 }
@@ -246,6 +255,7 @@ func resourceCheckRabbitmqUpdate(ctx context.Context, d *schema.ResourceData, m 
 		UserNameField:     d.Get(UserNameField),
 		PasswordField:     d.Get(PasswordField),
 		VhostField:        d.Get(VhostField),
+		RetriesField:      d.Get(RetriesField).(int),
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/check/rabbitmq/%s", id), server)

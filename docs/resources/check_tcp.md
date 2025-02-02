@@ -51,6 +51,7 @@ resource "rmon_check_tcp" "example" {
 - `check_timeout` (Number) Answer timeout in seconds.
 - `description` (String) Description of the Check TCP.
 - `enabled` (Boolean) Enabled state of the Check TCP.
+- `retries`: (Number) Number of retries before check is marked down.
 - `interval` (Number) Interval in seconds between checks.
 - `mm_channel_id` (Number) Mattermost channel ID for alerts.
 - `pd_channel_id` (Number) PagerDuty channel ID for alerts.

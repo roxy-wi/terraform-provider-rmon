@@ -112,6 +112,13 @@ func resourceCheckTcp() *schema.Resource {
 				Description:  "Port for check.",
 				ValidateFunc: validation.IsPortNumber,
 			},
+			RetriesField: {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Description:  "Number of retries before check is marked down.",
+				ValidateFunc: validation.IntAtLeast(0),
+				Default:      3,
+			},
 		},
 	}
 }
@@ -137,6 +144,7 @@ func resourceCheckTcpCreate(ctx context.Context, d *schema.ResourceData, m inter
 		MMField:           d.Get(MMField).(int),
 		PDField:           d.Get(PDField).(int),
 		PortField:         d.Get(PortField).(int),
+		RetriesField:      d.Get(RetriesField).(int),
 		IPField:           d.Get(IPField),
 	}
 
@@ -194,6 +202,7 @@ func resourceCheckTcpRead(ctx context.Context, d *schema.ResourceData, m interfa
 	d.Set(PDField, result[PDField])
 	d.Set(PortField, result[PortField])
 	d.Set(IPField, result[IPField])
+	d.Set(RetriesField, result[RetriesField])
 
 	return nil
 }
@@ -220,6 +229,7 @@ func resourceCheckTcpUpdate(ctx context.Context, d *schema.ResourceData, m inter
 		MMField:           d.Get(MMField).(int),
 		PDField:           d.Get(PDField).(int),
 		PortField:         d.Get(PortField).(int),
+		RetriesField:      d.Get(RetriesField).(int),
 		IPField:           d.Get(IPField),
 	}
 

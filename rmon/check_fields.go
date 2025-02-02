@@ -22,4 +22,5 @@ const (
 	UrlField                 = "url"
 	UserNameField            = "username"
 	VhostField               = "vhost"
+	RetriesField             = "retries"
 )

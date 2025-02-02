@@ -148,6 +148,13 @@ func resourceCheckHttp() *schema.Resource {
 				Description:  "Send headers to server. In JSON.",
 				ValidateFunc: validation.StringIsJSON,
 			},
+			RetriesField: {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Description:  "Number of retries before check is marked down.",
+				ValidateFunc: validation.IntAtLeast(0),
+				Default:      3,
+			},
 		},
 	}
 }
@@ -179,6 +186,7 @@ func resourceCheckHttpCreate(ctx context.Context, d *schema.ResourceData, m inte
 		BodyField:                d.Get(BodyField),
 		BodyRequestField:         d.Get(BodyRequestField),
 		HeaderRequestField:       d.Get(HeaderRequestField),
+		RetriesField:             d.Get(RetriesField).(int),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/http", server)
@@ -240,6 +248,7 @@ func resourceCheckHttpRead(ctx context.Context, d *schema.ResourceData, m interf
 	d.Set(BodyField, result[BodyField])
 	d.Set(BodyRequestField, result[BodyRequestField])
 	d.Set(HeaderRequestField, result[HeaderRequestField])
+	d.Set(RetriesField, result[RetriesField])
 
 	return nil
 }
@@ -272,6 +281,7 @@ func resourceCheckHttpUpdate(ctx context.Context, d *schema.ResourceData, m inte
 		BodyField:                d.Get(BodyField),
 		BodyRequestField:         d.Get(BodyRequestField),
 		HeaderRequestField:       d.Get(HeaderRequestField),
+		RetriesField:             d.Get(RetriesField).(int),
 	}
 
 	if d.HasChange(PortField) {

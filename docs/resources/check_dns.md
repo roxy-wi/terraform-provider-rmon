@@ -52,6 +52,7 @@ resource "rmon_check_dns" "example" {
 - `description` (String) Description of the CheckDns.
 - `enabled` (Boolean) Enabled state of the Check DNS.
 - `interval` (Number) Interval in seconds between checks.
+- `retries`: (Number) Number of retries before check is marked down.
 - `ip` (String) IP address or domain name for check.
 - `mm_channel_id` (Number) Mattermost channel ID for alerts.
 - `pd_channel_id` (Number) PagerDuty channel ID for alerts.

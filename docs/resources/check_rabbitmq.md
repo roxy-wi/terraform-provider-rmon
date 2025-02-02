@@ -56,6 +56,7 @@ resource "rmon_check_rabbitmq" "example" {
 - `description` (String) Description of the Check RabbitMQ.
 - `enabled` (Boolean) Enabled state of the Check RabbitMQ.
 - `interval` (Number) Interval in seconds between checks.
+- `retries`: (Number) Number of retries before check is marked down.
 - `mm_channel_id` (Number) Mattermost channel ID for alerts.
 - `pd_channel_id` (Number) PagerDuty channel ID for alerts.
 - `port` (Number) RabbitMQ server port.

@@ -49,6 +49,7 @@ resource "rmon_check_ping" "example" {
 - `description` (String) Description of the Check Ping.
 - `enabled` (Boolean) Enabled state of the Check Ping.
 - `interval` (Number) Interval in seconds between checks.
+- `retries`: (Number) Number of retries before check is marked down.
 - `ip` (String) IP address or domain name for Ping check.
 - `mm_channel_id` (Number) Mattermost channel ID for alerts.
 - `packet_size` (Number) Packet size in bytes.

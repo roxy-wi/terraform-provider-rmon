@@ -60,6 +60,7 @@ EOF
 - `header_req` (String) Send headers to server. In JSON.
 - `ignore_ssl_error` (Boolean) Ignore TLS/SSL error.
 - `interval` (Number) Interval in seconds between checks.
+- `retries`: (Number) Number of retries before check is marked down.
 - `mm_channel_id` (Number) Mattermost channel ID for alerts.
 - `pd_channel_id` (Number) PagerDuty channel ID for alerts.
 - `slack_channel_id` (Number) Slack channel ID for alerts.

@@ -112,6 +112,13 @@ func resourceCheckPing() *schema.Resource {
 				Description:  "Packet size in bytes.",
 				ValidateFunc: validation.IntAtLeast(17),
 			},
+			RetriesField: {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Description:  "Number of retries before check is marked down.",
+				ValidateFunc: validation.IntAtLeast(0),
+				Default:      3,
+			},
 		},
 	}
 }
@@ -138,6 +145,7 @@ func resourceCheckPingCreate(ctx context.Context, d *schema.ResourceData, m inte
 		PDField:           d.Get(PDField).(int),
 		PacketSizeField:   d.Get(PacketSizeField).(int),
 		IPField:           d.Get(IPField),
+		RetriesField:      d.Get(RetriesField).(int),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/ping", server)
@@ -194,6 +202,7 @@ func resourceCheckPingRead(ctx context.Context, d *schema.ResourceData, m interf
 	d.Set(PDField, result[PDField])
 	d.Set(PacketSizeField, result[PacketSizeField])
 	d.Set(IPField, result[IPField])
+	d.Set(RetriesField, result[RetriesField])
 
 	return nil
 }
@@ -221,6 +230,7 @@ func resourceCheckPingUpdate(ctx context.Context, d *schema.ResourceData, m inte
 		PDField:           d.Get(PDField).(int),
 		PacketSizeField:   d.Get(PacketSizeField).(int),
 		IPField:           d.Get(IPField),
+		RetriesField:      d.Get(RetriesField).(int),
 	}
 
 	if d.HasChange(PortField) {

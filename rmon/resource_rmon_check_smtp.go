@@ -129,6 +129,13 @@ func resourceCheckSmtp() *schema.Resource {
 				Sensitive:   true,
 				Description: "Password for authenticating to SMTP server.",
 			},
+			RetriesField: {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Description:  "Number of retries before check is marked down.",
+				ValidateFunc: validation.IntAtLeast(0),
+				Default:      3,
+			},
 		},
 	}
 }
@@ -158,6 +165,7 @@ func resourceCheckSmtpCreate(ctx context.Context, d *schema.ResourceData, m inte
 		IgnoreSslErrorField: boolToInt(d.Get(IgnoreSslErrorField).(bool)),
 		UserNameField:       d.Get(UserNameField),
 		PasswordField:       d.Get(PasswordField),
+		RetriesField:        d.Get(RetriesField).(int),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/smtp", server)
@@ -217,6 +225,7 @@ func resourceCheckSmtpRead(ctx context.Context, d *schema.ResourceData, m interf
 	d.Set(UserNameField, result[UserNameField])
 	d.Set(PasswordField, result[PasswordField])
 	d.Set(IgnoreSslErrorField, intToBool(result[IgnoreSslErrorField].(float64)))
+	d.Set(RetriesField, result[RetriesField])
 
 	return nil
 }
@@ -247,6 +256,7 @@ func resourceCheckSmtpUpdate(ctx context.Context, d *schema.ResourceData, m inte
 		IgnoreSslErrorField: boolToInt(d.Get(IgnoreSslErrorField).(bool)),
 		UserNameField:       d.Get(UserNameField),
 		PasswordField:       d.Get(PasswordField),
+		RetriesField:        d.Get(RetriesField).(int),
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/check/smtp/%s", id), server)

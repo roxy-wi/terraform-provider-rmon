@@ -134,6 +134,13 @@ func resourceCheckDns() *schema.Resource {
 					"txt",
 				}, false),
 			},
+			RetriesField: {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Description:  "Number of retries before check is marked down.",
+				ValidateFunc: validation.IntAtLeast(0),
+				Default:      3,
+			},
 		},
 	}
 }
@@ -162,6 +169,7 @@ func resourceCheckDnsCreate(ctx context.Context, d *schema.ResourceData, m inter
 		IPField:           d.Get(IPField),
 		ResolverField:     d.Get(ResolverField),
 		RecordTypeField:   d.Get(RecordTypeField),
+		RetriesField:      d.Get(RetriesField).(int),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/dns", server)
@@ -220,6 +228,7 @@ func resourceCheckDnsRead(ctx context.Context, d *schema.ResourceData, m interfa
 	d.Set(IPField, result[IPField])
 	d.Set(ResolverField, result[ResolverField])
 	d.Set(RecordTypeField, result[RecordTypeField])
+	d.Set(RetriesField, result[RetriesField])
 
 	return nil
 }
@@ -249,6 +258,7 @@ func resourceCheckDnsUpdate(ctx context.Context, d *schema.ResourceData, m inter
 		IPField:           d.Get(IPField),
 		ResolverField:     d.Get(ResolverField),
 		RecordTypeField:   d.Get(RecordTypeField),
+		RetriesField:      d.Get(RetriesField).(int),
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/check/dns/%s", id), server)
