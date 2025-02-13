@@ -135,6 +135,11 @@ func resourceCheckRabbitmq() *schema.Resource {
 				ValidateFunc: validation.IntAtLeast(0),
 				Default:      3,
 			},
+			RunbookField: {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Runbook URL for alerts.",
+			},
 		},
 	}
 }
@@ -165,6 +170,7 @@ func resourceCheckRabbitmqCreate(ctx context.Context, d *schema.ResourceData, m 
 		PasswordField:     d.Get(PasswordField),
 		VhostField:        d.Get(VhostField),
 		RetriesField:      d.Get(RetriesField).(int),
+		RunbookField:      d.Get(RunbookField).(string),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/rabbitmq", server)
@@ -225,6 +231,7 @@ func resourceCheckRabbitmqRead(ctx context.Context, d *schema.ResourceData, m in
 	d.Set(PasswordField, result[PasswordField])
 	d.Set(VhostField, result[VhostField])
 	d.Set(RetriesField, result[RetriesField])
+	d.Set(RunbookField, result[RunbookField])
 
 	return nil
 }
@@ -256,6 +263,7 @@ func resourceCheckRabbitmqUpdate(ctx context.Context, d *schema.ResourceData, m 
 		PasswordField:     d.Get(PasswordField),
 		VhostField:        d.Get(VhostField),
 		RetriesField:      d.Get(RetriesField).(int),
+		RunbookField:      d.Get(RunbookField).(string),
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/check/rabbitmq/%s", id), server)

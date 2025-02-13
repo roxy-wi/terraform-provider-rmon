@@ -136,6 +136,11 @@ func resourceCheckSmtp() *schema.Resource {
 				ValidateFunc: validation.IntAtLeast(0),
 				Default:      3,
 			},
+			RunbookField: {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Runbook URL for alerts.",
+			},
 		},
 	}
 }
@@ -166,6 +171,7 @@ func resourceCheckSmtpCreate(ctx context.Context, d *schema.ResourceData, m inte
 		UserNameField:       d.Get(UserNameField),
 		PasswordField:       d.Get(PasswordField),
 		RetriesField:        d.Get(RetriesField).(int),
+		RunbookField:        d.Get(RunbookField).(string),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/smtp", server)
@@ -226,6 +232,7 @@ func resourceCheckSmtpRead(ctx context.Context, d *schema.ResourceData, m interf
 	d.Set(PasswordField, result[PasswordField])
 	d.Set(IgnoreSslErrorField, intToBool(result[IgnoreSslErrorField].(float64)))
 	d.Set(RetriesField, result[RetriesField])
+	d.Set(RunbookField, result[RunbookField])
 
 	return nil
 }
@@ -257,6 +264,7 @@ func resourceCheckSmtpUpdate(ctx context.Context, d *schema.ResourceData, m inte
 		UserNameField:       d.Get(UserNameField),
 		PasswordField:       d.Get(PasswordField),
 		RetriesField:        d.Get(RetriesField).(int),
+		RunbookField:        d.Get(RunbookField).(string),
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/check/smtp/%s", id), server)

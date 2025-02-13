@@ -155,6 +155,18 @@ func resourceCheckHttp() *schema.Resource {
 				ValidateFunc: validation.IntAtLeast(0),
 				Default:      3,
 			},
+			RedirectsField: {
+				Type:         schema.TypeInt,
+				Optional:     true,
+				Description:  "Maximum number of redirects to follow. Set to 0 to disable redirects.",
+				ValidateFunc: validation.IntAtLeast(0),
+				Default:      3,
+			},
+			RunbookField: {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Runbook URL for alerts.",
+			},
 		},
 	}
 }
@@ -187,6 +199,8 @@ func resourceCheckHttpCreate(ctx context.Context, d *schema.ResourceData, m inte
 		BodyRequestField:         d.Get(BodyRequestField),
 		HeaderRequestField:       d.Get(HeaderRequestField),
 		RetriesField:             d.Get(RetriesField).(int),
+		RedirectsField:           d.Get(RedirectsField).(int),
+		RunbookField:             d.Get(RunbookField).(string),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/http", server)
@@ -249,6 +263,8 @@ func resourceCheckHttpRead(ctx context.Context, d *schema.ResourceData, m interf
 	d.Set(BodyRequestField, result[BodyRequestField])
 	d.Set(HeaderRequestField, result[HeaderRequestField])
 	d.Set(RetriesField, result[RetriesField])
+	d.Set(RedirectsField, result[RedirectsField])
+	d.Set(RunbookField, result[RunbookField])
 
 	return nil
 }
@@ -282,6 +298,8 @@ func resourceCheckHttpUpdate(ctx context.Context, d *schema.ResourceData, m inte
 		BodyRequestField:         d.Get(BodyRequestField),
 		HeaderRequestField:       d.Get(HeaderRequestField),
 		RetriesField:             d.Get(RetriesField).(int),
+		RedirectsField:           d.Get(RedirectsField).(int),
+		RunbookField:             d.Get(RunbookField).(string),
 	}
 
 	if d.HasChange(PortField) {

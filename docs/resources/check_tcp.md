@@ -57,6 +57,7 @@ resource "rmon_check_tcp" "example" {
 - `pd_channel_id` (Number) PagerDuty channel ID for alerts.
 - `slack_channel_id` (Number) Slack channel ID for alerts.
 - `telegram_channel_id` (Number) Telegram channel ID for alerts.
+- `runbook` (String) Runbook URL for alerts.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only

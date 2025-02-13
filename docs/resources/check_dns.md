@@ -61,6 +61,7 @@ resource "rmon_check_dns" "example" {
 - `resolver` (String) DNS server where resolve DNS query.
 - `slack_channel_id` (Number) Slack channel ID for alerts.
 - `telegram_channel_id` (Number) Telegram channel ID for alerts.
+- `runbook` (String) Runbook URL for alerts.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only

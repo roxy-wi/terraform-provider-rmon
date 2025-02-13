@@ -61,10 +61,12 @@ EOF
 - `ignore_ssl_error` (Boolean) Ignore TLS/SSL error.
 - `interval` (Number) Interval in seconds between checks.
 - `retries`: (Number) Number of retries before check is marked down.
+- `redirects`: (Number) Maximum number of redirects to follow. Set to 0 to disable redirects.
 - `mm_channel_id` (Number) Mattermost channel ID for alerts.
 - `pd_channel_id` (Number) PagerDuty channel ID for alerts.
 - `slack_channel_id` (Number) Slack channel ID for alerts.
 - `telegram_channel_id` (Number) Telegram channel ID for alerts.
+- `runbook` (String) Runbook URL for alerts.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only

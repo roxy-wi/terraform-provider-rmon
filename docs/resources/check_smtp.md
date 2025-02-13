@@ -62,6 +62,7 @@ resource "rmon_check_smtp" "example" {
 - `port` (Number) SMTP server port.
 - `slack_channel_id` (Number) Slack channel ID for alerts.
 - `telegram_channel_id` (Number) Telegram channel ID for alerts.
+- `runbook` (String) Runbook URL for alerts.
 - `timeouts` (Block, Optional) (see [below for nested schema](#nestedblock--timeouts))
 
 ### Read-Only

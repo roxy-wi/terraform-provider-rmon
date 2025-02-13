@@ -119,6 +119,11 @@ func resourceCheckPing() *schema.Resource {
 				ValidateFunc: validation.IntAtLeast(0),
 				Default:      3,
 			},
+			RunbookField: {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Runbook URL for alerts.",
+			},
 		},
 	}
 }
@@ -146,6 +151,7 @@ func resourceCheckPingCreate(ctx context.Context, d *schema.ResourceData, m inte
 		PacketSizeField:   d.Get(PacketSizeField).(int),
 		IPField:           d.Get(IPField),
 		RetriesField:      d.Get(RetriesField).(int),
+		RunbookField:      d.Get(RunbookField).(string),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/ping", server)
@@ -203,6 +209,7 @@ func resourceCheckPingRead(ctx context.Context, d *schema.ResourceData, m interf
 	d.Set(PacketSizeField, result[PacketSizeField])
 	d.Set(IPField, result[IPField])
 	d.Set(RetriesField, result[RetriesField])
+	d.Set(RunbookField, result[RunbookField])
 
 	return nil
 }
@@ -231,6 +238,7 @@ func resourceCheckPingUpdate(ctx context.Context, d *schema.ResourceData, m inte
 		PacketSizeField:   d.Get(PacketSizeField).(int),
 		IPField:           d.Get(IPField),
 		RetriesField:      d.Get(RetriesField).(int),
+		RunbookField:      d.Get(RunbookField).(string),
 	}
 
 	if d.HasChange(PortField) {

@@ -119,6 +119,11 @@ func resourceCheckTcp() *schema.Resource {
 				ValidateFunc: validation.IntAtLeast(0),
 				Default:      3,
 			},
+			RunbookField: {
+				Type:        schema.TypeString,
+				Optional:    true,
+				Description: "Runbook URL for alerts.",
+			},
 		},
 	}
 }
@@ -146,6 +151,7 @@ func resourceCheckTcpCreate(ctx context.Context, d *schema.ResourceData, m inter
 		PortField:         d.Get(PortField).(int),
 		RetriesField:      d.Get(RetriesField).(int),
 		IPField:           d.Get(IPField),
+		RunbookField:      d.Get(RunbookField).(string),
 	}
 
 	resp, err := client.doRequest("POST", "/api/v1.0/rmon/check/tcp", server)
@@ -203,6 +209,7 @@ func resourceCheckTcpRead(ctx context.Context, d *schema.ResourceData, m interfa
 	d.Set(PortField, result[PortField])
 	d.Set(IPField, result[IPField])
 	d.Set(RetriesField, result[RetriesField])
+	d.Set(RunbookField, result[RunbookField])
 
 	return nil
 }
@@ -231,6 +238,7 @@ func resourceCheckTcpUpdate(ctx context.Context, d *schema.ResourceData, m inter
 		PortField:         d.Get(PortField).(int),
 		RetriesField:      d.Get(RetriesField).(int),
 		IPField:           d.Get(IPField),
+		RunbookField:      d.Get(RunbookField).(string),
 	}
 
 	_, err := client.doRequest("PUT", fmt.Sprintf("/api/v1.0/rmon/check/tcp/%s", id), server)

@@ -23,4 +23,6 @@ const (
 	UserNameField            = "username"
 	VhostField               = "vhost"
 	RetriesField             = "retries"
+	RedirectsField           = "redirects"
+	RunbookField             = "runbook"
 )
