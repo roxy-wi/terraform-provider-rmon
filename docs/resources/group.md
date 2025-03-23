@@ -8,7 +8,7 @@ description: |-
 
 # rmon_group (Resource)
 
-Represent roxy-wi group. All servers managed via RMON can be included in groups. A group is a user-defined pool of servers. It is up to you decide how you will group your servers. You can create groups because of their type, purpose, etc. By default, all your servers are included in the common group named Default. All other groups are created within this group.
+Represent RMON group. All servers managed via RMON can be included in groups. A group is a user-defined pool of servers. It is up to you decide how you will group your servers. You can create groups because of their type, purpose, etc. By default, all your servers are included in the common group named Default. All other groups are created within this group.
 
 ## Example Usage
 

@@ -21,6 +21,7 @@ const (
 	ReceiverTypeSlack      = "slack"
 	ReceiverTypePagerDuty  = "pd"
 	ReceiverTypeMattermost = "mm"
+	ReceiverTypeEmail      = "email"
 )
 
 func resourceChannel() *schema.Resource {
@@ -40,15 +41,15 @@ func resourceChannel() *schema.Resource {
 			Delete: schema.DefaultTimeout(30 * time.Minute),
 		},
 
-		Description: "Represents a communication channel such as Telegram, Slack, PagerDuty, or Mattermost.",
+		Description: "Represents a communication channel such as Telegram, Slack, PagerDuty, Mattermost and/or Email.",
 
 		Schema: map[string]*schema.Schema{
 			ReceiverField: {
 				Type:         schema.TypeString,
 				Required:     true,
 				ForceNew:     true,
-				Description:  fmt.Sprintf("The type of the receiver. Only `%s`, `%s`, `%s`, `%s` are allowed.", ReceiverTypeTelegram, ReceiverTypeSlack, ReceiverTypePagerDuty, ReceiverTypeMattermost),
-				ValidateFunc: validation.StringInSlice([]string{ReceiverTypeTelegram, ReceiverTypeSlack, ReceiverTypePagerDuty, ReceiverTypeMattermost}, true),
+				Description:  fmt.Sprintf("The type of the receiver. Only `%s`, `%s`, `%s`, `%s`, `%s` are allowed.", ReceiverTypeTelegram, ReceiverTypeSlack, ReceiverTypePagerDuty, ReceiverTypeMattermost, ReceiverTypeEmail),
+				ValidateFunc: validation.StringInSlice([]string{ReceiverTypeTelegram, ReceiverTypeSlack, ReceiverTypePagerDuty, ReceiverTypeMattermost, ReceiverTypeEmail}, true),
 			},
 			ChannelField: {
 				Type:        schema.TypeString,

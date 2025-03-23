@@ -18,7 +18,7 @@ const (
 func dataSourceGroup() *schema.Resource {
 	return &schema.Resource{
 		ReadContext: dataSourceGroupRead,
-		Description: "Represent roxy-wi group. All servers managed via RMON can be included in groups. A group is a user-defined pool of servers. By default, all your servers are included in the common group named Default.",
+		Description: "Represent RMON group. All servers managed via RMON can be included in groups. A group is a user-defined pool of servers. By default, all your servers are included in the common group named Default.",
 
 		Schema: map[string]*schema.Schema{
 			IDField: {

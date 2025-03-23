@@ -8,7 +8,7 @@ description: |-
 
 # rmon_channel (Resource)
 
-Represents a communication channel such as Telegram, Slack, PagerDuty, or Mattermost.
+Represents a communication channel such as Telegram, Slack, PagerDuty, Mattermost and/or Email.
 
 ## Example Usage
 
@@ -22,7 +22,7 @@ The following arguments are supported:
 
 - `channel` (String) The channel identifier.
 - `group_id` (Number) The ID of the group to which the channel belongs.
-- `receiver` (String, ForceNew) The type of the receiver. Only `telegram`, `slack`, `pd`, `mm` are allowed.
+- `receiver` (String, ForceNew) The type of the receiver. Only `telegram`, `slack`, `pd`, `mm`, `email` are allowed.
 - `token` (String) The token used for the channel.
 
 ### Optional
